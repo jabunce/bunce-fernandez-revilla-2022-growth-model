@@ -1,5 +1,5 @@
 
-This is the analysis exploring how head and waist circumference and height change by age, corresponding to Appendix Figures A.2 and A.3 in the associated manuscript.
+# This is the analysis exploring how head and waist circumference and height change by age, corresponding to Appendix Figures A.2 and A.3 in the associated manuscript.
 
 
 Steps to reproduce the analysis:
