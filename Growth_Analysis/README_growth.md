@@ -4,7 +4,7 @@ The analysis is organized in four folders corresponding to male and female heigh
 
 Once the four sub-analyses described above are completed, the fifth folder ``combined_plots`` contains scripts that can be run to create several of the composite figures in the manuscript. 
 
-The ``analysis_height_mal`` folder contains analyses using the 5-component composite model, the JPA model, and the SITAR model.
+The ``analysis_height_mal`` folder contains analyses using the 5-component composite model, the JPA-1 model, and the SITAR model, in addition to the 3-component composite model.
 
 Within each subfolder is a ``README`` file, giving further instructions.
 
