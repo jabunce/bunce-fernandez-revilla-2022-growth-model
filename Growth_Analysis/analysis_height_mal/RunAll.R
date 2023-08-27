@@ -37,9 +37,11 @@ source("./Code/PrepareData.R")
 
 
 
+# Below, Sections 1 - 4 can be run indpendently, and in any order
 
 
-###################################### Fit composite model with three components
+
+###################################### Section 1: Fit composite model with three components
 
 # design priors for reasonable variance about mean trajectory
 # means and stdevs from this used for m1
@@ -91,7 +93,7 @@ source("./Code/PlotMainModelOutput.R")
 
 
 
-######################################### composite model with five components
+######################################### Section 2: composite model with five components
 
 # makes Figure A.17
 source("./Code/PriorPredict5.R")
@@ -107,7 +109,7 @@ source("./Code/PlotComposite5fit.R")
 
 
 
-########################################### JPA-1 model
+########################################### Section 3: JPA-1 model
 
 # Ber and Matsi separate
 
@@ -136,7 +138,7 @@ source("./Code/PlotJPAfit.R")
 
 
 
-############################################ SITAR model
+############################################ Section 4: SITAR model
 
 # makes Figure A.21
 source("./Code/FitSITAR.R")
