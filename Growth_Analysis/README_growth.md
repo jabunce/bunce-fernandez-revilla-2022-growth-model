@@ -1,4 +1,4 @@
-This is the analysis of height and weight growth of Matsigenka and U.S. girls and boys in the associated manuscript.
+# This is the analysis of height and weight growth of Matsigenka and U.S. girls and boys in the associated manuscript.
 
 The analysis is organized in four folders corresponding to male and female height and weight growth. Each of these sub-analyses can be completed independently of the others, in any order. However, before you can make many of the composite figures in the manuscript, you will need to complete all four sub-analyses.
 
@@ -8,11 +8,14 @@ The ``analysis_height_mal`` folder contains analyses using the 5-component compo
 
 Within each subfolder is a ``README`` file, giving further instructions.
 
+ <br/>
+ 
+**To reproduce all analyses and create all figures in the manuscript:**
 
-To reproduce all analyses and create all figures in the manuscript, first create a project folder. Name it whatever you want.
+1. Create a project folder on your machine. Name it whatever you want.
 
-Within this project folder place the five subfolders.
+2. Within this project folder place the five subfolders.
 
-Follow the instructions within each subfolder's ``README`` file.
+3. Follow the instructions within each subfolder's ``README`` file.
 
-Run the contents of the ``combined_plots`` folder last.
+4. Run the contents of the ``combined_plots`` folder last.
