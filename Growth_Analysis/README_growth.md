@@ -15,4 +15,4 @@ Within this project folder place the five subfolders.
 
 Follow the instructions within each subfolder's ``README`` file.
 
-Save the ``combined_plots`` folder for last.
+Run the contents of the ``combined_plots`` folder last.
