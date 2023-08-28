@@ -1,4 +1,4 @@
-# Analysis of height and weight growth of Matsigenka and U.S. girls and boys in the associated manuscript.
+# Analysis of height and weight growth of Matsigenka and U.S. girls and boys in the associated manuscript
 
 The analysis is organized in four folders corresponding to male and female height and weight growth. Each of these sub-analyses can be completed independently of the others, in any order. However, before you can make many of the composite figures in the manuscript, you will need to complete all four sub-analyses.
 
