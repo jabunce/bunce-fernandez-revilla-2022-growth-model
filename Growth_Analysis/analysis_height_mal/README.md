@@ -5,7 +5,7 @@ This makes Appendix Figures A.5, A.8, A.10, and A.17 - A.21.
 <br/>
 Steps to reproduce the analysis:
 
-1) Create an analysis folder on your machine. Name it whatever you want. Place it inside the project folder you created [previously](../README_growth.md). 
+1) Create an analysis folder on your machine. Name it whatever you want. Place it inside the project folder you created [previously](../README.md). 
 
 2) Inside this analysis folder, put the file ``RunAll.R``
 
