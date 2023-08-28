@@ -1,4 +1,4 @@
-# Analysis of male height using the 3-component composite model, the 5-component composite model, the JPA-1 model, and the SITAR model.
+# Analysis of male height using the 3-component composite model, the 5-component composite model, the JPA-1 model, and the SITAR model
 
 This makes Appendix Figures A.5, A.8, A.10, and A.17 - A.21.
 
