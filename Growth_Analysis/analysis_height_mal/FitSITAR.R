@@ -3,10 +3,6 @@
 ################## SITAR 
 
 
-#install.packages("sitar")
-#library(sitar) #load this before packages in RunAll
-
-
 
 ####################################################################################################################################
 # dataset without height set to 0 at conception, duplicating Berkeley data until age 25
