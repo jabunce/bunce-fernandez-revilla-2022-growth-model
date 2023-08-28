@@ -19,5 +19,6 @@ Steps to reproduce the analysis:
 
 Within ``RunAll.R``, you can run sections for the 3- and 5-component composite models, JPA-1 model, and SITAR model independently, and in any order.
 
-Figures will appear in the ``Plots`` folder.
+Fitting the the 3- and 5-component composite models and the JPA-1 model in Stan with the numbers of chains and samples used in the manuscript can take several days to run. However, you can usually get fairly reasonable quick estimates with only two chains of 1000 samples each. Within ``RunAll.R`` you can change the numbers of chains and samples.
 
+Figures will appear in the ``Plots`` folder.
