@@ -1,4 +1,4 @@
-# Analysis of male weight using the 3-component composite model.
+# Analysis of male weight using the 3-component composite model
 
 <br/>
 Steps to reproduce the analysis:
