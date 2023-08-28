@@ -13,4 +13,4 @@ To the right of this page, under the heading **Releases** can be found an analys
 
 Empirical data from Indigenous Matsigenka communities included in this repository (the file``Matsigenka.csv``) are provided so that other researchers can check the analyses in the associated manuscript. Due to our agreements with the communities, these data shall not be used for any other purpose unless express permission is granted by the communities. If you are interested in using these data for another purpose, please contact Caissa Revilla-Minaya (caissa_revilla@eva.mpg.de) or John Bunce (john_bunce@eva.mpg.de) to discuss the possibility of obtaining the requisite permission.
 
-All other data in this repository are in the public domain, and may cited using the corresponging references in the associated manuscript. 
+All other data in this repository are in the public domain, and may be cited using the corresponging references in the associated manuscript. 
