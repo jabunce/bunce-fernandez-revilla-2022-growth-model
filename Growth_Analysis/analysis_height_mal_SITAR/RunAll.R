@@ -38,8 +38,7 @@ source("./Code/PrepareData.R")
 
 
 
-
-# makes Figure A.21
+# run SITAR analysis
 source("./Code/FitSITAR.R")
 
 
