@@ -15,6 +15,6 @@ Steps to reproduce the analysis:
 
 6) Inside the ``Code`` folder, put all the other files.
 
-7) Open the file ``RunAll.R``. Inside it, set the path to your project folder [parent folder](../README.md), not to the folder ``combined_plots``. Then run its parts in order in R, following the instructions within.
+7) Open the file ``RunAll.R``. Inside it, set the path to the [parent folder](../README.md), not to the folder ``combined_plots``. Then run its parts in order in R, following the instructions within.
 
 Plots will appear in the ``Plots`` folder.
