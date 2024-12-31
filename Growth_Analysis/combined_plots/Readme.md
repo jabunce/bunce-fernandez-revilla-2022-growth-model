@@ -3,7 +3,7 @@
 <br/>
 Steps to reproduce the analysis:
 
-1) Complete the eight sub-analyses for female and male height and weight in the [parent folder](../README.md). 
+1) Complete the eight sub-analyses for female and male height and weight in the [project folder](../README.md). 
 
 2) Create a folder on your machine named exactly ``combined_plots``. Place it inside the project folder you created [previously](../README.md). 
 
@@ -15,6 +15,6 @@ Steps to reproduce the analysis:
 
 6) Inside the ``Code`` folder, put all the other files.
 
-7) Open the file ``RunAll.R``. Inside it, set the path to the [parent folder](../README.md), not to the folder ``combined_plots``. Then run its parts in order in R, following the instructions within.
+7) Open the file ``RunAll.R``. Inside it, set the path to the [project folder](../README.md), not to the folder ``combined_plots``. Then run its parts in order in R, following the instructions within.
 
 Plots will appear in the ``Plots`` folder.
