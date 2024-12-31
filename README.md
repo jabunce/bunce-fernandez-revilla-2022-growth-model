@@ -1,7 +1,7 @@
 # bunce-fernandez-revilla-growth-model-2022
 Data and analysis code for 2024 manuscript presenting height and weight models of human growth
 
-The preprint is on bioRxiv [here](https://www.biorxiv.org/content/10.1101/2022.10.10.511559v1).
+%The preprint is on bioRxiv [here](https://www.biorxiv.org/content/10.1101/2022.10.10.511559v1).
 
 The main analysis is contained in the folder ``Growth_Analysis``. A README file within that folder gives further instructions.
 
