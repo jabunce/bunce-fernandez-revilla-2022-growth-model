@@ -15,6 +15,4 @@ Steps to reproduce the analysis:
 
 6) Open the file ``RunAll.R``. Inside it, you can set the path to your analysis folder. Then run its parts in order in R.
 
-Fitting the models in Stan with the numbers of chains and samples used in the manuscript can take several days to run. However, you can usually get fairly reasonable quick estimates with only two chains of 1000 samples each. Within ``RunAll.R`` you can change the numbers of chains and samples.
-
 Figures will appear in the ``Plots`` folder.
