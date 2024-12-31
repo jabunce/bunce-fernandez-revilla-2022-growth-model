@@ -1,0 +1,1025 @@
+
+
+##### prior predictive simulations from composite model, multiple groups
+
+
+Nsims <- 100 # number of trajectories to simulate 
+
+muQ1 <- 0.08667426 #0.02642435 #0.02788939 #0.01846999 #0.018 #0.02788939 #0.029 #0.004 
+muQ2 <- 0.1763514 #0.2427418 #0.2574765 #0.2382693 #0.23 #0.2574765 #0.27 #0.051 
+muQ3 <- 0.2241886 #0.2289767 #0.2393313 #0.2224999 #0.23 #0.2393313 #0.249 #0.1 
+muQ4 <- 0.3502002 #0.2653013 #0.2620346 #0.3331369 #0.33 #0.2620346 #0.251 #0.25 
+muQ5 <- 0.4424988 #0.497431 #0.4926697 #0.4915381 #0.49 #0.4926697 #0.48 #0.55 
+
+muK1 <- 79.4844 #297.2281 #278.8385 #453.1015 #465.2 #278.8385 #267 #2955 
+muK2 <- 11.566 #15.22311 #14.47897 #11.07146 #11 #14.47897 #13.6 #92.5 
+muK3 <- 3.453425 #6.092474 #5.864563 #3.670478 #3.65 #5.864563 #5.5 #16.3 
+muK4 <- 1.694483 #1.756456 #1.764828 #1.61489 #1.57 #1.764828 #1.79 #1.75  
+muK5 <- 2.823065 #2.582605 #2.613814 #3.049673 #3 #2.613814 #2.7 #2.5 
+
+muH1 <- 56.41336 #165.0675 #155.8867 #243.9172 #250 #155.8867 #150 #1500 
+muH2 <- 10.33364 #16.54593 #16.13737 #12.35944 #12 #16.13737 #15.6 #54.4 
+muH3 <- 3.789172 #6.217122 #6.124631 #4.003799 #4 #6.124631 #6 #11.3 
+muH4 <- 2.837078 #2.48548 #2.474928 #2.634141 #2.57 #2.474928 #2.4 #2.4
+muH5 <- 5.055914 #5.243103 #5.270818 #5.797311 #5.8 #5.270818 #5.3 #6 
+
+muI1 <- 0
+muI2 <- 0.1251271 #0.4521714 #0.5014537 #0.2972938 #0.4 #0.5014537 #0.6 #0.125 
+muI3 <- 0.6194294 #1.02903 #1.010873 #1.074176 #1.1 #1.010873 #1 #0.3 
+muI4 <- 4.628288 #2.234554 #2.173383 #4.43865 #4.4 #2.173383 #2.2 #1.5 
+muI5 <- 10.17561 #9.928083 #9.95563 #10.4425 #10.35 #9.95563 #10.2 #10.2 
+muIM <- 20 # max age for start of last process
+
+
+# transformed
+muLQ1 <- log(muQ1)         # assumes muQ1 is the median on the original (un-logged) scale
+muLQ2 <- log(muQ2)
+muLQ3 <- log(muQ3)
+muLQ4 <- log(muQ4)        
+muLQ5 <- log(muQ5)
+
+muLK1 <- log(muK1) 
+muLK2 <- log(muK2)
+muLK3 <- log(muK3)
+muLK4 <- log(muK4)
+muLK5 <- log(muK5)
+
+muR1 <- muH1 - 0.5*muK1
+muR2 <- muH2 - 0.5*muK2
+muR3 <- muH3 - 0.5*muK3
+muR4 <- muH4 - 0.5*muK4
+muR5 <- muH5 - 0.5*muK5
+
+muLI1 <- 0
+muLI2 <- log(muI2)
+muLI3 <- log(muI3)
+muLI4 <- log(muI4)
+muLI5 <- log(muI5)
+muLIM <- log(muIM)
+
+
+
+# stdev of the offset to the base trajectory for the mean (across individuals) trajectory of the ethnic group
+# on transformed scale
+gexpLQ1 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.0001 #0.001  # mean(post5$"offsetIndivStdevs[1]")
+gexpLQ2 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.0001 #0.001        
+gexpLQ3 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.0001 #0.001
+gexpLQ4 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.0001 #0.001 #0.005 ##0.001        
+gexpLQ5 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.0001 #0.001 ##0.005
+
+gexpLK1 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.005      
+gexpLK2 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.005 
+gexpLK3 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.005 
+gexpLK4 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.005 #0.01 ##0.005 
+gexpLK5 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.005  #0.01 ##0.001 
+
+gexpR1 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01       
+gexpR2 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01
+gexpR3 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01
+gexpR4 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01 #0.05 ##0.01
+gexpR5 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01 ##0.05
+
+gexpLI1 <- 0.00000001      
+gexpLI2 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001
+gexpLI3 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01 ##0.001
+gexpLI4 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01 ##0.001
+gexpLI5 <- 0.00005 #0.0001 #0.001 #0.01 #0.0001 #0.001 #0.00001 #0.001 #0.01 ##0.001
+gexpLIM <- 0.00000001
+
+# on original scale
+# stdev on original scale = [( e^(sdL^2) - 1 )*e^( 2*mu + sdL^2 )]^0.5
+gexpQ1 <- (( exp(gexpLQ1^2) - 1 )*exp( 2*muLQ1 + gexpLQ1^2 ))^0.5    
+gexpQ2 <- (( exp(gexpLQ2^2) - 1 )*exp( 2*muLQ2 + gexpLQ2^2 ))^0.5          
+gexpQ3 <- (( exp(gexpLQ3^2) - 1 )*exp( 2*muLQ3 + gexpLQ3^2 ))^0.5     
+gexpQ4 <- (( exp(gexpLQ4^2) - 1 )*exp( 2*muLQ4 + gexpLQ4^2 ))^0.5          
+gexpQ5 <- (( exp(gexpLQ5^2) - 1 )*exp( 2*muLQ5 + gexpLQ5^2 ))^0.5   
+
+gexpK1 <- (( exp(gexpLK1^2) - 1 )*exp( 2*muLK1 + gexpLK1^2 ))^0.5         
+gexpK2 <- (( exp(gexpLK2^2) - 1 )*exp( 2*muLK2 + gexpLK2^2 ))^0.5   
+gexpK3 <- (( exp(gexpLK3^2) - 1 )*exp( 2*muLK3 + gexpLK3^2 ))^0.5   
+gexpK4 <- (( exp(gexpLK4^2) - 1 )*exp( 2*muLK4 + gexpLK4^2 ))^0.5   
+gexpK5 <- (( exp(gexpLK5^2) - 1 )*exp( 2*muLK5 + gexpLK5^2 ))^0.5   
+
+gexpH1 <- gexpR1        
+gexpH2 <- gexpR2   
+gexpH3 <- gexpR3   
+gexpH4 <- gexpR4    
+gexpH5 <- gexpR5    
+
+gexpI1 <- 0.00000001      
+gexpI2 <- (( exp(gexpLI2^2) - 1 )*exp( 2*muLI2 + gexpLI2^2 ))^0.5    
+gexpI3 <- (( exp(gexpLI3^2) - 1 )*exp( 2*muLI3 + gexpLI3^2 ))^0.5    
+gexpI4 <- (( exp(gexpLI4^2) - 1 )*exp( 2*muLI4 + gexpLI4^2 ))^0.5      
+gexpI5 <- (( exp(gexpLI5^2) - 1 )*exp( 2*muLI5 + gexpLI5^2 ))^0.5      
+gexpIM <- (( exp(gexpLIM^2) - 1 )*exp( 2*muLIM + gexpLIM^2 ))^0.5 
+
+
+
+
+
+# mean offsets to the mean group trajectory for each individual, if the individual trajectories fit the data at the expense of the mean group trajectory, then reduce these prior variances
+iexpLQ1 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.0001 #0.0005 #0.001 ##0.0015     # mean(post5$"offsetIndivStdevs[1]")
+iexpLQ2 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.0001 #0.0005 #0.001 ##0.0015        
+iexpLQ3 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.0001 #0.0005 #0.001 #0.01 ##0.005 
+iexpLQ4 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.0001 #0.00001 #0.00005 #0.0001 #0.0005 #0.001 ##0.0015          
+iexpLQ5 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.0001 #0.00001 #0.00005 #0.0001 #0.0005 #0.001 #0.01 ##0.005 
+
+iexpLK1 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 #0.005 ##0.006      
+iexpLK2 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 #0.001 #0.005 ##0.006 
+iexpLK3 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 #0.001 #0.005 #0.06 ##0.01  
+iexpLK4 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.00005 #0.0001 #0.0005 #0.001 #0.005 ##0.006  
+iexpLK5 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.00005 #0.0001 #0.0005 #0.001 #0.005 #0.06 ##0.01 
+
+iexpR1 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.005 #0.01 ##0.015      
+iexpR2 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.005 #0.01 ##0.015
+iexpR3 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 #0.005 #0.01 #0.15 ##0.05 #0.015
+iexpR4 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.0001 #0.0005 #0.001 #0.005 #0.01 ##0.015 #0.015 
+iexpR5 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.0001 #0.0005 #0.001 #0.005 #0.01 #0.15 ##0.05 #0.005
+
+iexpLI1 <- 0.00000001      
+iexpLI2 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001
+iexpLI3 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 ##0.01
+iexpLI4 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 #0.01 ##0.001
+iexpLI5 <- 0.00005 #0.0001 #0.001 #0.005 #0.001 #0.0001 #0.001 #0.00001 #0.001 #0.001 ##0.01
+iexpLIM <- 0.00000001
+
+
+# on original scale
+# stdev on original scale = [( e^(sdL^2) - 1 )*e^( 2*mu + sdL^2 )]^0.5
+iexpQ1 <- (( exp(iexpLQ1^2) - 1 )*exp( 2*muLQ1 + iexpLQ1^2 ))^0.5    
+iexpQ2 <- (( exp(iexpLQ2^2) - 1 )*exp( 2*muLQ2 + iexpLQ2^2 ))^0.5          
+iexpQ3 <- (( exp(iexpLQ3^2) - 1 )*exp( 2*muLQ3 + iexpLQ3^2 ))^0.5     
+iexpQ4 <- (( exp(iexpLQ4^2) - 1 )*exp( 2*muLQ4 + iexpLQ4^2 ))^0.5          
+iexpQ5 <- (( exp(iexpLQ5^2) - 1 )*exp( 2*muLQ5 + iexpLQ5^2 ))^0.5   
+
+iexpK1 <- (( exp(iexpLK1^2) - 1 )*exp( 2*muLK1 + iexpLK1^2 ))^0.5         
+iexpK2 <- (( exp(iexpLK2^2) - 1 )*exp( 2*muLK2 + iexpLK2^2 ))^0.5   
+iexpK3 <- (( exp(iexpLK3^2) - 1 )*exp( 2*muLK3 + iexpLK3^2 ))^0.5   
+iexpK4 <- (( exp(iexpLK4^2) - 1 )*exp( 2*muLK4 + iexpLK4^2 ))^0.5   
+iexpK5 <- (( exp(iexpLK5^2) - 1 )*exp( 2*muLK5 + iexpLK5^2 ))^0.5   
+
+iexpH1 <- gexpR1        
+iexpH2 <- gexpR2   
+iexpH3 <- gexpR3   
+iexpH4 <- gexpR4    
+iexpH5 <- gexpR5    
+
+iexpI1 <- 0.00000001      
+iexpI2 <- (( exp(iexpLI2^2) - 1 )*exp( 2*muLI2 + iexpLI2^2 ))^0.5    
+iexpI3 <- (( exp(iexpLI3^2) - 1 )*exp( 2*muLI3 + iexpLI3^2 ))^0.5    
+iexpI4 <- (( exp(iexpLI4^2) - 1 )*exp( 2*muLI4 + iexpLI4^2 ))^0.5      
+iexpI5 <- (( exp(iexpLI5^2) - 1 )*exp( 2*muLI5 + iexpLI5^2 ))^0.5      
+iexpIM <- (( exp(iexpLIM^2) - 1 )*exp( 2*muLIM + iexpLIM^2 ))^0.5 
+
+
+# stdevs for normal hyperpriors on individual-level stdevs
+# on transformed scale 
+ihsdLQ1 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLQ2 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01        
+ihsdLQ3 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLQ4 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01          
+ihsdLQ5 <- 0.0001 #0.0005 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01 
+
+ihsdLK1 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01     
+ihsdLK2 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01 
+ihsdLK3 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01  
+ihsdLK4 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01  
+ihsdLK5 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01 
+
+ihsdR1 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01      
+ihsdR2 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdR3 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdR4 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdR5 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+
+ihsdLI1 <- 0.000000001      
+ihsdLI2 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLI3 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLI4 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLI5 <- 0.0001 #0.0005 #0.001 #0.001 #0.01 #0.000001 #0.00001 #0.0001 #0.01
+ihsdLIM <- 0.000000001
+
+
+
+muLsigma_h <- 0.002
+musigma_h <- (( exp(muLsigma_h^2) - 1 )*exp( 2*log(100) + muLsigma_h^2 ))^0.5       # max of 0.005 :  95% of observations within 2*stdev = 1cm of actual height at 100cm
+muLsigma_w <- 0.002
+musigma_w <- (( exp(muLsigma_w^2) - 1 )*exp( 2*log(50000) + muLsigma_w^2 ))^0.5     # max of 0.005 : 95% observations within 0.5 kg of actual weight at 50kg
+
+
+
+
+
+# holders for sims for individuals
+Q1 <- rep(0,Nsims)
+Q2 <- rep(0,Nsims)
+Q3 <- rep(0,Nsims)
+Q4 <- rep(0,Nsims)
+Q5 <- rep(0,Nsims)
+
+K1 <- rep(0,Nsims)
+K2 <- rep(0,Nsims)
+K3 <- rep(0,Nsims)
+K4 <- rep(0,Nsims)
+K5 <- rep(0,Nsims)
+
+H1 <- rep(0,Nsims)
+H2 <- rep(0,Nsims)
+H3 <- rep(0,Nsims)
+H4 <- rep(0,Nsims)
+H5 <- rep(0,Nsims)
+
+I1 <- rep(0,Nsims)
+I2 <- rep(0,Nsims)
+I3 <- rep(0,Nsims)
+I4 <- rep(0,Nsims)
+I5 <- rep(0,Nsims)
+
+
+# holders for sims for group mean
+gQ1 <- rep(0,Nsims)
+gQ2 <- rep(0,Nsims)
+gQ3 <- rep(0,Nsims)
+gQ4 <- rep(0,Nsims)
+gQ5 <- rep(0,Nsims)
+
+gK1 <- rep(0,Nsims)
+gK2 <- rep(0,Nsims)
+gK3 <- rep(0,Nsims)
+gK4 <- rep(0,Nsims)
+gK5 <- rep(0,Nsims)
+
+gH1 <- rep(0,Nsims)
+gH2 <- rep(0,Nsims)
+gH3 <- rep(0,Nsims)
+gH4 <- rep(0,Nsims)
+gH5 <- rep(0,Nsims)
+
+gI1 <- rep(0,Nsims)
+gI2 <- rep(0,Nsims)
+gI3 <- rep(0,Nsims)
+gI4 <- rep(0,Nsims)
+gI5 <- rep(0,Nsims)
+
+
+
+
+for (n in 1:Nsims) {
+
+  gsdLQ1 <- rnorm( n=1, mean=gexpLQ1, sd=0.0001 ) #0.0005 0.001 #0.00001
+  gsdLQ2 <- rnorm( n=1, mean=gexpLQ2, sd=0.0001 )          
+  gsdLQ3 <- rnorm( n=1, mean=gexpLQ3, sd=0.0001 )
+  gsdLQ4 <- rnorm( n=1, mean=gexpLQ4, sd=0.0001 )        
+  gsdLQ5 <- rnorm( n=1, mean=gexpLQ5, sd=0.0001 )
+
+  gsdLK1 <- rnorm( n=1, mean=gexpLK1, sd=0.0001 )      
+  gsdLK2 <- rnorm( n=1, mean=gexpLK2, sd=0.0001 )
+  gsdLK3 <- rnorm( n=1, mean=gexpLK3, sd=0.0001 )
+  gsdLK4 <- rnorm( n=1, mean=gexpLK4, sd=0.0001 )
+  gsdLK5 <- rnorm( n=1, mean=gexpLK5, sd=0.0001 )
+
+  gsdR1 <- rnorm( n=1, mean=gexpR1, sd=0.0001 )      
+  gsdR2 <- rnorm( n=1, mean=gexpR2, sd=0.0001 )
+  gsdR3 <- rnorm( n=1, mean=gexpR3, sd=0.0001 )
+  gsdR4 <- rnorm( n=1, mean=gexpR4, sd=0.0001 )
+  gsdR5 <- rnorm( n=1, mean=gexpR5, sd=0.0001 )
+
+  gsdLI1 <- 0.00000001      
+  gsdLI2 <- rnorm( n=1, mean=gexpLI2, sd=0.0001 )
+  gsdLI3 <- rnorm( n=1, mean=gexpLI3, sd=0.0001 )
+  gsdLI4 <- rnorm( n=1, mean=gexpLI4, sd=0.0001 )
+  gsdLI5 <- rnorm( n=1, mean=gexpLI5, sd=0.0001 )
+
+  offsetGroupStdevs <- c( gsdLQ1, gsdLQ2, gsdLQ3, gsdLQ4, gsdLQ5,
+                          gsdLK1, gsdLK2, gsdLK3, gsdLK4, gsdLK5,
+                          gsdR1,  gsdR2,  gsdR3,  gsdR4,  gsdR5,
+                          gsdLI1, gsdLI2, gsdLI3, gsdLI4, gsdLI5 )
+
+  t <- diag(offsetGroupStdevs)
+  CholEtaG <- 4 #40 #4
+  U <- rlkjcorr( n=1, K=length(offsetGroupStdevs), eta=CholEtaG )  # eta=1, all coorelations equally likely; eta>1, extreme correlations less likely 
+  T <- t %*% U %*% t # vcov matrix with variances (t^2) on the diagonal
+
+  GrpOffset <- mvrnorm( n=1, mu=rep(0,length(offsetGroupStdevs)), Sigma=T )
+
+
+
+  isdLQ1 <- rnorm( n=1, mean=iexpLQ1, sd=ihsdLQ1 )
+  isdLQ2 <- rnorm( n=1, mean=iexpLQ2, sd=ihsdLQ2 )        
+  isdLQ3 <- rnorm( n=1, mean=iexpLQ3, sd=ihsdLQ3 )
+  isdLQ4 <- rnorm( n=1, mean=iexpLQ4, sd=ihsdLQ4 )        
+  isdLQ5 <- rnorm( n=1, mean=iexpLQ5, sd=ihsdLQ5 )
+
+  isdLK1 <- rnorm( n=1, mean=iexpLK1, sd=ihsdLK1 )      
+  isdLK2 <- rnorm( n=1, mean=iexpLK2, sd=ihsdLK2 )
+  isdLK3 <- rnorm( n=1, mean=iexpLK3, sd=ihsdLK3 )
+  isdLK4 <- rnorm( n=1, mean=iexpLK4, sd=ihsdLK4 )
+  isdLK5 <- rnorm( n=1, mean=iexpLK5, sd=ihsdLK5 )
+
+  isdR1 <- rnorm( n=1, mean=iexpR1, sd=ihsdR1 )      
+  isdR2 <- rnorm( n=1, mean=iexpR2, sd=ihsdR1 )
+  isdR3 <- rnorm( n=1, mean=iexpR3, sd=ihsdR1 )
+  isdR4 <- rnorm( n=1, mean=iexpR4, sd=ihsdR1 )
+  isdR5 <- rnorm( n=1, mean=iexpR5, sd=ihsdR1 )
+
+  isdLI1 <- 0.00000001      
+  isdLI2 <- rnorm( n=1, mean=iexpLI2, sd=ihsdLI2 )
+  isdLI3 <- rnorm( n=1, mean=iexpLI3, sd=ihsdLI3 )
+  isdLI4 <- rnorm( n=1, mean=iexpLI4, sd=ihsdLI4 )
+  isdLI5 <- rnorm( n=1, mean=iexpLI5, sd=ihsdLI5 )
+
+
+  offsetIndivStdevs <- c( isdLQ1, isdLQ2, isdLQ3, isdLQ4, isdLQ5,
+                          isdLK1, isdLK2, isdLK3, isdLK4, isdLK5,
+                          isdR1,  isdR2,  isdR3,  isdR4,  isdR5,
+                          isdLI1, isdLI2, isdLI3, isdLI4, isdLI5 )
+
+  s <- diag(offsetIndivStdevs)
+  CholEtaI <- 4 #40 #4
+  R <- rlkjcorr( n=1, K=length(offsetIndivStdevs), eta=CholEtaI )  # eta=1, all coorelations equally likely; eta>1, extreme correlations less likely 
+  S <- s %*% R %*% s # vcov matrix with variances (s^2) on the diagonal
+
+  IndOffset <- mvrnorm( n=1, mu=rep(0,length(offsetIndivStdevs)), Sigma=S )
+
+
+
+  Q1[n] <- exp( muLQ1 + IndOffset[1] )
+  Q2[n] <- exp( muLQ2 + IndOffset[2] )      
+  Q3[n] <- exp( muLQ3 + IndOffset[3] )
+  Q4[n] <- exp( muLQ4 + IndOffset[4] )      
+  Q5[n] <- exp( muLQ5 + IndOffset[5] )
+
+  K1[n] <- exp( muLK1 + IndOffset[6] )   
+  K2[n] <- exp( muLK2 + IndOffset[7] )
+  K3[n] <- exp( muLK3 + IndOffset[8] )
+  K4[n] <- exp( muLK4 + IndOffset[9] )
+  K5[n] <- exp( muLK5 + IndOffset[10] )
+
+  H1[n] <- K1[n]/2 + muR1 + IndOffset[11]    
+  H2[n] <- K2[n]/2 + muR2 + IndOffset[12]
+  H3[n] <- K3[n]/2 + muR3 + IndOffset[13]
+  H4[n] <- K4[n]/2 + muR4 + IndOffset[14]
+  H5[n] <- K5[n]/2 + muR5 + IndOffset[15]
+
+  I1[n] <- 0   
+  I2[n] <- exp( muLI2 + IndOffset[17] )
+  I3[n] <- exp( muLI3 + IndOffset[18] )
+  I4[n] <- exp( muLI4 + IndOffset[19] )
+  I5[n] <- exp( muLI5 + IndOffset[20] )
+
+  # sims for group mean
+  gQ1[n] <- exp( muLQ1 + GrpOffset[1] )
+  gQ2[n] <- exp( muLQ2 + GrpOffset[2] )      
+  gQ3[n] <- exp( muLQ3 + GrpOffset[3] )
+  gQ4[n] <- exp( muLQ4 + GrpOffset[4] )      
+  gQ5[n] <- exp( muLQ5 + GrpOffset[5] )
+
+  gK1[n] <- exp( muLK1 + GrpOffset[6] )   
+  gK2[n] <- exp( muLK2 + GrpOffset[7] )
+  gK3[n] <- exp( muLK3 + GrpOffset[8] )
+  gK4[n] <- exp( muLK4 + GrpOffset[9] )
+  gK5[n] <- exp( muLK5 + GrpOffset[10] )
+
+  gH1[n] <- gK1[n]/2 + muR1 + GrpOffset[11]    
+  gH2[n] <- gK2[n]/2 + muR2 + GrpOffset[12]
+  gH3[n] <- gK3[n]/2 + muR3 + GrpOffset[13]
+  gH4[n] <- gK4[n]/2 + muR4 + GrpOffset[14]
+  gH5[n] <- gK5[n]/2 + muR5 + GrpOffset[15]
+
+  gI1[n] <- 0   
+  gI2[n] <- exp( muLI2 + GrpOffset[17] )
+  gI3[n] <- exp( muLI3 + GrpOffset[18] )
+  gI4[n] <- exp( muLI4 + GrpOffset[19] )
+  gI5[n] <- exp( muLI5 + GrpOffset[20] )
+
+} # for n
+
+
+
+colorlist <- hcl.colors(n=11, palette="Blue-Red 3",
+                        alpha=0.75)
+names(colorlist) <- c("1.1","1.2","1.3","1.4","1.5", "neutral",
+                      "2.5","2.4","2.3","2.2","2.1")
+#pie(rep(1, 11), col = colorlist)
+
+
+colorlist2 <- hcl.colors(n=11, palette="Green-Brown",
+                        alpha=0.75)
+names(colorlist2) <- c("1.1","1.2","1.3","1.4","1.5", "neutral",
+                      "2.5","2.4","2.3","2.2","2.1")
+#pie(rep(1, 11), col = colorlist2)
+
+
+
+pdf(file="./Plots/Prior_predict_m6_fh.pdf",
+    height=10, width=10)
+par(mfrow = c(2, 2))
+par(mar = c(0, 0, 0, 0), oma = c(5, 5, 4, 4)) #margins for indiv plot, oma for outer margins (bottom, left, top, right)
+
+
+  x <- seq(from=(0), to=(25+0.75), by=0.1)        # sequence for plotting functions, include gestation in age
+  
+
+  ##### group-level variance
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,200), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ), labels = FALSE )
+  axis( side=2, at=seq( 0, 200, by=50 ) )
+  #mtext("Age since conception (yrs)", side = 1, outer = T, cex = 1, line = 3, adj=2)
+  mtext("Height (cm)", side = 2, outer = T, cex = 1.5, line = 1, adj=0.5)
+
+
+
+  # plot possible group mean trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+    # infant
+    lines(x = x,
+          y = ifelse( x > gI1[z], ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]), NA),
+          col=colorlist["1.3"], lwd=0.25, lty=1)
+
+    # child 1
+    lines(x = x,
+          y = ifelse( x > gI2[z], ( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z]), NA),
+          col="plum", lwd=0.25, lty=1)
+
+    # child 2
+      lines(x = x,
+          y = ifelse( x > gI3[z], ( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z]), NA),
+          col=colorlist2["1.3"], lwd=0.25, lty=1)
+
+    # child 3
+    lines(x = x,
+          y = ifelse( x > gI4[z], ( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z]), NA),
+          col=colorlist2["2.3"], lwd=0.25, lty=1)
+
+    # adolescent
+    lines(x = x,
+          y = ifelse( x > gI5[z], ( 2*gH5[z]/gK5[z] * ( 1 - exp(gK5[z]*gQ5[z]*( gI5[z] - x )/( 1 + 2*gQ5[z] )) ) )^(1/gQ5[z]), NA),
+          col=colorlist["2.3"], lwd=0.25, lty=1)
+
+  } #for z
+
+
+
+  # baseline trajectory
+
+  # infant
+  lines(x = x,
+        y = ifelse( x > muI1, ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1), NA),
+          col=colorlist["1.1"], lwd=3, lty=1)
+
+  # child 1
+  lines(x = x,
+        y = ifelse( x > muI2, ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2), NA),
+        col="plum4", lwd=3, lty=1)
+
+  # child 2
+  lines(x = x,
+        y = ifelse( x > muI3, ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3), NA),
+        col=colorlist2["1.1"], lwd=3, lty=1)
+
+  # child 3
+  lines(x = x,
+        y = ifelse( x > muI4, ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4), NA),
+        col=colorlist2["2.1"], lwd=3, lty=1)
+
+  # adolescent
+  lines(x = x,
+        y = ifelse( x > muI5, ( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5), NA),
+        col=colorlist["2.1"], lwd=3, lty=1)
+
+  
+
+  text(1, 190, "Prior group-level variance", cex = 1.35, adj=0)
+
+
+
+  #### cumulative trajectories
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,200), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ), labels = FALSE )
+  axis( side=2, at=seq( 0, 200, by=50 ), labels = FALSE )
+
+
+
+  # plot possible group mean trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+
+    lines(x = x,
+          y = ifelse( x <= gI2[z], 0.012 + ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]),
+
+              ifelse( x <= gI3[z], 0.012 + ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]) +
+                                           ( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z]),
+
+              ifelse( x <= gI4[z], 0.012 + ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]) +
+                                           ( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z]) +
+                                           ( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z]),
+
+              ifelse( x <= gI5[z], 0.012 + ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]) +
+                                           ( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z]) +
+                                           ( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z]) +
+                                           ( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z]),
+
+                                   0.012 + ( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z]) +
+                                           ( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z]) +
+                                           ( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z]) +
+                                           ( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z]) +
+                                           ( 2*gH5[z]/gK5[z] * ( 1 - exp(gK5[z]*gQ5[z]*( gI5[z] - x )/( 1 + 2*gQ5[z] )) ) )^(1/gQ5[z])
+              ) ) ) ),
+          col=grey(0.5), lwd=0.25, lty=1)
+
+  } #for z
+
+
+  # baseline trajectory
+    lines(x = x,
+          y = ifelse( x <= muI2, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1),
+
+              ifelse( x <= muI3, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2),
+
+              ifelse( x <= muI4, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3),
+
+              ifelse( x <= muI5, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3) +
+                                         ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4),
+
+                                 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3) +
+                                         ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4) +
+                                         ( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5)
+              ) ) ) ),
+          col="black", lwd=3, lty=1)
+
+
+
+
+
+  # Individual-level variance
+
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,200), xlim=c(0,26), xlab="Age since conception (yrs)", ylab="Height (cm)" )
+  axis( side=1, at=seq( 0, 25, by=5 ) )
+  axis( side=2, at=seq( 0, 200, by=50 ) )
+  mtext("Age since conception (yrs)", side = 1, outer = T, cex = 1.5, line = 1, adj=0.5)
+  #mtext("Height (cm)", side = 2, outer = T, cex = 1, line = 3, adj=0.5)
+
+
+  # plot possible individual trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+    # infant
+    lines(x = x,
+          y = ifelse( x > I1[z], ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]), NA),
+          col=colorlist["1.3"], lwd=0.25, lty=1)
+
+    # child 1
+    lines(x = x,
+          y = ifelse( x > I2[z], ( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z]), NA),
+          col="plum", lwd=0.25, lty=1)
+
+    # child 2
+      lines(x = x,
+          y = ifelse( x > I3[z], ( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z]), NA),
+          col=colorlist2["1.3"], lwd=0.25, lty=1)
+
+    # child 3
+    lines(x = x,
+          y = ifelse( x > I4[z], ( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z]), NA),
+          col=colorlist2["2.3"], lwd=0.25, lty=1)
+
+    # adolescent
+    lines(x = x,
+          y = ifelse( x > I5[z], ( 2*H5[z]/K5[z] * ( 1 - exp(K5[z]*Q5[z]*( I5[z] - x )/( 1 + 2*Q5[z] )) ) )^(1/Q5[z]), NA),
+          col=colorlist["2.3"], lwd=0.25, lty=1)
+
+  } #for z
+
+
+
+  # baseline trajectory
+
+  # infant
+  lines(x = x,
+        y = ifelse( x > muI1, ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1), NA),
+          col=colorlist["1.1"], lwd=3, lty=1)
+
+  # child 1
+  lines(x = x,
+        y = ifelse( x > muI2, ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2), NA),
+        col="plum4", lwd=3, lty=1)
+
+  # child 2
+  lines(x = x,
+        y = ifelse( x > muI3, ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3), NA),
+        col=colorlist2["1.1"], lwd=3, lty=1)
+
+  # child 3
+  lines(x = x,
+        y = ifelse( x > muI4, ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4), NA),
+        col=colorlist2["2.1"], lwd=3, lty=1)
+
+  # adolescent
+  lines(x = x,
+        y = ifelse( x > muI5, ( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5), NA),
+        col=colorlist["2.1"], lwd=3, lty=1)
+
+
+  text(1, 190, "Prior individual-level variance", cex = 1.35, adj=0)
+
+
+
+  #### cumulative trajectories
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,200), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ) )
+  axis( side=2, at=seq( 0, 200, by=50 ), labels = FALSE )
+
+
+  # plot possible individual trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+    lines(x = x,
+          y = ifelse( x <= I2[z], 0.012 + ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]),
+
+              ifelse( x <= I3[z], 0.012 + ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]) +
+                                          ( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z]),
+
+              ifelse( x <= I4[z], 0.012 + ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]) +
+                                          ( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z]) +
+                                          ( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z]),
+
+              ifelse( x <= I5[z], 0.012 + ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]) +
+                                          ( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z]) +
+                                          ( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z]) +
+                                          ( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z]),
+
+                                  0.012 + ( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z]) +
+                                          ( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z]) +
+                                          ( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z]) +
+                                          ( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z]) +
+                                          ( 2*H5[z]/K5[z] * ( 1 - exp(K5[z]*Q5[z]*( I5[z] - x )/( 1 + 2*Q5[z] )) ) )^(1/Q5[z])
+              ) ) ) ),
+          col=grey(0.5), lwd=0.25, lty=1)
+
+  } #for z
+
+
+  # baseline trajectory
+    lines(x = x,
+          y = ifelse( x <= muI2, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1),
+
+              ifelse( x <= muI3, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2),
+
+              ifelse( x <= muI4, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3),
+
+              ifelse( x <= muI5, 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3) +
+                                         ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4),
+
+                                 0.012 + ( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1) +
+                                         ( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2) +
+                                         ( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3) +
+                                         ( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4) +
+                                         ( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5)
+              ) ) ) ),
+          col="black", lwd=3, lty=1)
+
+
+
+
+graphics.off()
+
+
+
+##########################################################################################################
+
+
+
+pdf(file="./Plots/Prior_predict_m6_fw.pdf",
+    height=10, width=10)
+par(mfrow = c(2, 2))
+par(mar = c(0, 0, 0, 0), oma = c(5, 5, 4, 4)) #margins for indiv plot, oma for outer margins (bottom, left, top, right)
+
+
+  x <- seq(from=(0), to=(25+0.75), by=0.1)        # sequence for plotting functions, include gestation in age
+  
+
+  ##### group-level variance
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,4000), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ), labels = FALSE )
+  axis( side=2, at=seq( 0, 4000, by=500 ) )
+  #mtext("Age since conception (yrs)", side = 1, outer = T, cex = 1, line = 3, adj=2)
+  mtext("Weight (g)", side = 2, outer = T, cex = 1.5, line = 1, adj=0.5)
+
+
+
+  # plot possible group mean trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+    # 1
+    lines(x = x,
+          y = ifelse( x > gI1[z], pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2), NA),
+          col=colorlist["1.3"], lwd=0.25, lty=1)
+
+    # 2
+    lines(x = x,
+          y = ifelse( x > gI2[z], pi*( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z] + 2), NA),
+          col="plum", lwd=0.25, lty=1)
+
+    # 3
+    lines(x = x,
+          y = ifelse( x > gI3[z], pi*( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z] + 2), NA),
+          col=colorlist2["1.3"], lwd=0.25, lty=1)
+
+    # 4
+    lines(x = x,
+          y = ifelse( x > gI4[z], pi*( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z] + 2), NA),
+          col=colorlist2["2.3"], lwd=0.25, lty=1)
+
+    # 5
+    lines(x = x,
+          y = ifelse( x > gI5[z], pi*( 2*gH5[z]/gK5[z] * ( 1 - exp(gK5[z]*gQ5[z]*( gI5[z] - x )/( 1 + 2*gQ5[z] )) ) )^(1/gQ5[z] + 2), NA),
+          col=colorlist["2.3"], lwd=0.25, lty=1)
+
+  } #for z
+
+
+
+  # baseline trajectory
+
+  # 1
+  lines(x = x,
+        y = ifelse( x > muI1, pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2), NA),
+        col=colorlist["1.1"], lwd=3, lty=1)
+
+  # 2
+  lines(x = x,
+        y = ifelse( x > muI2, pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2), NA),
+        col="plum4", lwd=3, lty=1)
+
+  # 3
+  lines(x = x,
+        y = ifelse( x > muI3, pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2), NA),
+        col=colorlist2["1.1"], lwd=3, lty=1)
+
+  # 4
+  lines(x = x,
+        y = ifelse( x > muI4, pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2), NA),
+        col=colorlist2["2.1"], lwd=3, lty=1)
+
+  # 5
+  lines(x = x,
+        y = ifelse( x > muI5, pi*( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5 + 2), NA),
+        col=colorlist["2.1"], lwd=3, lty=1)
+
+  
+
+  text(1, 3900, "Prior group-level variance", cex = 1.35, adj=0)
+
+
+
+  #### cumulative trajectories
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,4000), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ), labels = FALSE )
+  axis( side=2, at=seq( 0, 4000, by=500 ), labels = FALSE )
+
+
+  # plot possible individual trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+
+    lines(x = x,
+          y = ifelse( x < gI2[z], 1.02e-6 + pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2),
+
+              ifelse( x < gI3[z], 1.02e-6 + pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2) +
+                                           pi*( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z] + 2),
+
+              ifelse( x < gI4[z], 1.02e-6 + pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2) +
+                                           pi*( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z] + 2) +
+                                           pi*( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z] + 2),
+
+              ifelse( x < gI5[z], 1.02e-6 + pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2) +
+                                           pi*( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z] + 2) +
+                                           pi*( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z] + 2) +
+                                           pi*( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z] + 2),                                                                                                                                                                  
+
+                                  1.02e-6 + pi*( 2*gH1[z]/gK1[z] * ( 1 - exp(gK1[z]*gQ1[z]*( gI1[z] - x )/( 1 + 2*gQ1[z] )) ) )^(1/gQ1[z] + 2) +
+                                           pi*( 2*gH2[z]/gK2[z] * ( 1 - exp(gK2[z]*gQ2[z]*( gI2[z] - x )/( 1 + 2*gQ2[z] )) ) )^(1/gQ2[z] + 2) +
+                                           pi*( 2*gH3[z]/gK3[z] * ( 1 - exp(gK3[z]*gQ3[z]*( gI3[z] - x )/( 1 + 2*gQ3[z] )) ) )^(1/gQ3[z] + 2) +
+                                           pi*( 2*gH4[z]/gK4[z] * ( 1 - exp(gK4[z]*gQ4[z]*( gI4[z] - x )/( 1 + 2*gQ4[z] )) ) )^(1/gQ4[z] + 2) +
+                                           pi*( 2*gH5[z]/gK5[z] * ( 1 - exp(gK5[z]*gQ5[z]*( gI5[z] - x )/( 1 + 2*gQ5[z] )) ) )^(1/gQ5[z] + 2)
+
+              ) ) ) ), 
+          col=grey(0.5), lwd=0.25, lty=1)
+
+  } #for z
+
+
+  # baseline trajectory
+    lines(x = x,
+          y = ifelse( x < muI2, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2),
+
+              ifelse( x < muI3, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2),
+
+              ifelse( x < muI4, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2),
+
+              ifelse( x < muI5, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2) +
+                                         pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2),                                                                                                                                                              
+
+                                1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2) +
+                                         pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2) +
+                                         pi*( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5 + 2) 
+
+              ) ) ) ),
+          col="black", lwd=3, lty=1)
+
+
+
+
+
+  # Individual-level variance
+
+
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,4000), xlim=c(0,26), xlab="Age since conception (yrs)", ylab="Weight (g)" )
+  axis( side=1, at=seq( 0, 25, by=5 ) )
+  axis( side=2, at=seq( 0, 4000, by=500 ) )
+  mtext("Age since conception (yrs)", side = 1, outer = T, cex = 1.5, line = 1, adj=0.5)
+  #mtext("Height (cm)", side = 2, outer = T, cex = 1, line = 3, adj=0.5)
+
+
+
+  # plot possible individual trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+    # 1
+    lines(x = x,
+          y = ifelse( x > I1[z], pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2), NA),
+          col=colorlist["1.3"], lwd=0.25, lty=1)
+
+    # 2
+    lines(x = x,
+          y = ifelse( x > I2[z], pi*( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z] + 2), NA),
+          col="plum", lwd=0.25, lty=1)
+
+    # 3
+    lines(x = x,
+          y = ifelse( x > I3[z], pi*( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z] + 2), NA),
+          col=colorlist2["1.3"], lwd=0.25, lty=1)
+
+    # 4
+    lines(x = x,
+          y = ifelse( x > I4[z], pi*( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z] + 2), NA),
+          col=colorlist2["2.3"], lwd=0.25, lty=1)
+
+    # 5
+    lines(x = x,
+          y = ifelse( x > I5[z], pi*( 2*H5[z]/K5[z] * ( 1 - exp(K5[z]*Q5[z]*( I5[z] - x )/( 1 + 2*Q5[z] )) ) )^(1/Q5[z] + 2), NA),
+          col=colorlist["2.3"], lwd=0.25, lty=1)
+
+  } #for z
+
+
+
+  # baseline trajectory
+
+  # 1
+  lines(x = x,
+        y = ifelse( x > muI1, pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2), NA),
+        col=colorlist["1.1"], lwd=3, lty=1)
+
+  # 2
+  lines(x = x,
+        y = ifelse( x > muI2, pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2), NA),
+        col="plum4", lwd=3, lty=1)
+
+  # 3
+  lines(x = x,
+        y = ifelse( x > muI3, pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2), NA),
+        col=colorlist2["1.1"], lwd=3, lty=1)
+
+  # 4
+  lines(x = x,
+        y = ifelse( x > muI4, pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2), NA),
+        col=colorlist2["2.1"], lwd=3, lty=1)
+
+  # 5
+  lines(x = x,
+        y = ifelse( x > muI5, pi*( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5 + 2), NA),
+        col=colorlist["2.1"], lwd=3, lty=1)
+
+  
+  text(1, 3900, "Prior individual-level variance", cex = 1.35, adj=0)
+
+
+
+  #### cumulative trajectories
+
+  #set up plot
+  par(mar=c(2, 2, 0, 0)) #c(bottom, left, top, right)
+  plot( x=0, y=60, type="n", ylim=c(0,4000), xlim=c(0,26), axes=F, ylab=NA, xlab=NA)
+  box(which = "plot", lty = "solid")
+  axis( side=1, at=seq( 0, 25, by=5 ) )
+  axis( side=2, at=seq( 0, 4000, by=500 ), labels = FALSE )
+
+
+  # plot possible individual trajectories from this model given the priors
+  for ( z in 1:Nsims ){
+
+
+    lines(x = x,
+          y = ifelse( x < I2[z], 1.02e-6 + pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2),
+
+              ifelse( x < I3[z], 1.02e-6 + pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2) +
+                                          pi*( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z] + 2),
+
+              ifelse( x < I4[z], 1.02e-6 + pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2) +
+                                          pi*( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z] + 2) +
+                                          pi*( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z] + 2),
+
+              ifelse( x < I5[z], 1.02e-6 + pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2) +
+                                          pi*( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z] + 2) +
+                                          pi*( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z] + 2) +
+                                          pi*( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z] + 2),                                                                                                                                                                  
+
+                                 1.02e-6 + pi*( 2*H1[z]/K1[z] * ( 1 - exp(K1[z]*Q1[z]*( I1[z] - x )/( 1 + 2*Q1[z] )) ) )^(1/Q1[z] + 2) +
+                                          pi*( 2*H2[z]/K2[z] * ( 1 - exp(K2[z]*Q2[z]*( I2[z] - x )/( 1 + 2*Q2[z] )) ) )^(1/Q2[z] + 2) +
+                                          pi*( 2*H3[z]/K3[z] * ( 1 - exp(K3[z]*Q3[z]*( I3[z] - x )/( 1 + 2*Q3[z] )) ) )^(1/Q3[z] + 2) +
+                                          pi*( 2*H4[z]/K4[z] * ( 1 - exp(K4[z]*Q4[z]*( I4[z] - x )/( 1 + 2*Q4[z] )) ) )^(1/Q4[z] + 2) +
+                                          pi*( 2*H5[z]/K5[z] * ( 1 - exp(K5[z]*Q5[z]*( I5[z] - x )/( 1 + 2*Q5[z] )) ) )^(1/Q5[z] + 2)
+
+              ) ) ) ), 
+          col=grey(0.5), lwd=0.25, lty=1)
+
+  } #for z
+
+
+  # baseline trajectory
+    lines(x = x,
+          y = ifelse( x < muI2, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2),
+
+              ifelse( x < muI3, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2),
+
+              ifelse( x < muI4, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2),
+
+              ifelse( x < muI5, 1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2) +
+                                         pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2),                                                                                                                                                              
+
+                                1.02e-6 + pi*( 2*muH1/muK1 * ( 1 - exp(muK1*muQ1*( muI1 - x )/( 1 + 2*muQ1 )) ) )^(1/muQ1 + 2) +
+                                         pi*( 2*muH2/muK2 * ( 1 - exp(muK2*muQ2*( muI2 - x )/( 1 + 2*muQ2 )) ) )^(1/muQ2 + 2) +
+                                         pi*( 2*muH3/muK3 * ( 1 - exp(muK3*muQ3*( muI3 - x )/( 1 + 2*muQ3 )) ) )^(1/muQ3 + 2) +
+                                         pi*( 2*muH4/muK4 * ( 1 - exp(muK4*muQ4*( muI4 - x )/( 1 + 2*muQ4 )) ) )^(1/muQ4 + 2) +
+                                         pi*( 2*muH5/muK5 * ( 1 - exp(muK5*muQ5*( muI5 - x )/( 1 + 2*muQ5 )) ) )^(1/muQ5 + 2) 
+
+              ) ) ) ),
+          col="black", lwd=3, lty=1)
+
+
+
+graphics.off()
+
+
