@@ -1,6 +1,8 @@
 # bunce-fernandez-revilla-growth-model-2022
 Data and analysis code for 2025 manuscript: **A causal model of human growth and its estimation using temporally sparse data** 
 
+The original preprint is on bioRXiv [here](https://www.biorxiv.org/content/10.1101/2022.10.10.511559v3)
+
 The main analysis is contained in the folder ``Growth_Analysis``. A README file within that folder gives further instructions.
 
 The folder ``Circumference_Height_Analysis`` contains an exploration of how body circumference and height change with age, described in Appendix A of the associated manuscript. A README file within that folder gives further instructions.
