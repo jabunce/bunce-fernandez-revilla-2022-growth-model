@@ -1,4 +1,4 @@
-# Analysis of male height using the SITAR model
+# Analysis of male height using the SITAR model (Appendix F.4)
 
 <br/>
 Steps to reproduce the analysis:
