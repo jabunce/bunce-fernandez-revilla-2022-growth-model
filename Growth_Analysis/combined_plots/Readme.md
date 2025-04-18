@@ -3,7 +3,7 @@
 <br/>
 Steps to reproduce the analysis:
 
-1) Complete the eight sub-analyses for female and male height and weight in the [project folder](../README.md). 
+1) Complete the ten sub-analyses for female and male height and weight in the [project folder](../README.md). 
 
 2) Create a folder on your machine named exactly ``combined_plots``. Place it inside the project folder you created [previously](../README.md). 
 
