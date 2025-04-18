@@ -1,4 +1,4 @@
-# Analysis of female height using artificially-added variance around recorded Matsigenka ages. Test robustness of results to increased age uncertainty.
+# Analysis of female height using artificially-added variance around recorded Matsigenka ages. Test robustness of results to increased age uncertainty (Appendix D.6).
 
 <br/>
 Steps to reproduce the analysis:
