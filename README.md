@@ -1,5 +1,5 @@
 # bunce-fernandez-revilla-growth-model-2022
-Data and analysis code for 2024 manuscript: **A causal model of human growth and its estimation using temporally sparse data** 
+Data and analysis code for 2025 manuscript: **A causal model of human growth and its estimation using temporally sparse data** 
 
 The main analysis is contained in the folder ``Growth_Analysis``. A README file within that folder gives further instructions.
 
