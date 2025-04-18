@@ -1,4 +1,4 @@
-# Analysis of female height only (not weight) using the composite model
+# Analysis of female height only (not weight) using the composite model (Appendix F.2)
 
 <br/>
 Steps to reproduce the analysis:
