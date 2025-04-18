@@ -1,4 +1,4 @@
-# Analysis of male height and weight using unbiased composite model described in appendix
+# Analysis of male height and weight using unbiased composite model (Appendix F.1)
 
 <br/>
 Steps to reproduce the analysis:
