@@ -1,4 +1,4 @@
-# Analysis of male height using the JPA-1 model
+# Analysis of female height using artificially-added variance around recorded Matsigenka ages
 
 <br/>
 Steps to reproduce the analysis:
