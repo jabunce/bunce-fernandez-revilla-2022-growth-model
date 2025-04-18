@@ -1,4 +1,4 @@
-# Analysis of male height using the JPA-1 model
+# Analysis of male height using the JPA-1 model (Appendix F.3)
 
 <br/>
 Steps to reproduce the analysis:
