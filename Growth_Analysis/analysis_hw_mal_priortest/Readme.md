@@ -1,4 +1,4 @@
-# Analysis of male height using priors derived from posterior estimates of Matsigenka females. Tests robustness of results to changes in informative priors.
+# Analysis of male height using priors derived from posterior estimates of Matsigenka females. Tests robustness of results to changes in informative priors (Appendix D.8).
 
 <br/>
 Steps to reproduce the analysis:
