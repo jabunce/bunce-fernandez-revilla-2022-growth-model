@@ -1,5 +1,5 @@
 # bunce-fernandez-revilla-growth-model-2022
-Data and analysis code for 2025 manuscript:
+Data and analysis code for 2025 publication:
 
 **Bunce, JA, CI Fernández, and C Revilla-Minaya (2025) A causal model of human growth and its estimation using temporally sparse data. Royal Society Open Science 12: 250084**, available open-access [here](https://royalsocietypublishing.org/doi/10.1098/rsos.250084)
 
